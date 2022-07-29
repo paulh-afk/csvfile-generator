@@ -2,6 +2,9 @@ import sys
 import time
 import yaml
 
+command_list = ["-h", "--help", "h", "help",
+                "-l", "-t", "-dd", "-d", "-a", "add", "-e", "edit", "-export"]
+
 
 def showHelp():
     print("COMMANDS LIST")
@@ -10,8 +13,18 @@ def showHelp():
 def argsToDictionary(args):
     result = {}
     for i in range(0, len(args), 2):
+        if(not(command_list.__contains__(args[i]))):
+            print("An argument isn't valid")
+            exit()
+
         result[args[i]] = args[i + 1]
     return result
+
+
+def verifyArg(arg):
+    if(command_list.__contains__(arg)):
+        return True
+    return False
 
 
 args = sys.argv
