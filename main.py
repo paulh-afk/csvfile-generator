@@ -42,39 +42,15 @@ def containsHelp(key):
     return False
 
 
+def minutesConverter(minutes):
+    if(minutes < 10):
+        return "0" + str(minutes)
+
+    return minutes
+
+
 args = sys.argv
 del args[0]
-
-# COMMANDS
-# Help
-
-if(len(args) == 1 and args.__contains__("h")):
-    showHelp()
-    del args[args.index("h")]
-
-if(len(args) == 1 and args.__contains__("help")):
-    showHelp()
-    del args[args.index("help")]
-
-# List todolist
-
-if(args.__contains__("l")):
-    print("Showing todolist")
-    del args[args.index("l")]
-
-# List today todolist
-
-if(args.__contains__("t")):
-    print("Showing todolist for today")
-    del args[args.index("l")]
-
-# Delete done
-
-if(args.__contains__("dd")):
-    print("Delete done tasks")
-    del args[args.index("dd")]
-
-args_dict = argsToDictionary(args)
 
 # TODOS
 
@@ -101,7 +77,59 @@ def todosContainContent(content):
     return False
 
 
+def sortTodos():
+    for i in range(len(todos) - 1):
+        for j in range(len(todos) - 1):
+            if(todos[j]["date"] > todos[j + 1]["date"]):
+                greatest = todos[j]["date"]
+                todos[j]["date"] = todos[j + 1]["date"]
+                todos[j + 1]["date"] = greatest
+
+
+# COMMANDS
+# Help
+
+if(len(args) == 1 and args.__contains__("h")):
+    showHelp()
+    del args[args.index("h")]
+
+if(len(args) == 1 and args.__contains__("help")):
+    showHelp()
+    del args[args.index("help")]
+
+# List todolist
+
+if(args.__contains__("l")):
+    del args[args.index("l")]
+
+    if(len(todos) == 0):
+        print("No tasks !")
+
+    for todo in todos:
+        date = datetime.fromtimestamp(todo["date"])
+        minutes = minutesConverter(date.minute)
+        print(date.month, "-", date.day, " ", date.hour,
+              ":", minutes, " > ", todo["content"], sep="")
+
+
+# List today todolist
+
+if(args.__contains__("t")):
+    print("Showing todolist for today")
+    del args[args.index("t")]
+
+    # get actual date 00:00 to 23:59 todos
+
+# Delete done
+
+if(args.__contains__("dd")):
+    print("Delete done tasks")
+    del args[args.index("dd")]
+
+args_dict = argsToDictionary(args)
+
 # Add todo
+
 
 def addTodo(content):
     if(containsHelp(content)):
@@ -142,6 +170,8 @@ if(args_dict.__contains__("a")):
 
 if(args_dict.__contains__("add")):
     addTodo(args_dict["add"])
+
+sortTodos()
 
 with open("output.yaml", "w+") as file:
     yaml.dump(yaml.safe_load(str(todos)), file)
