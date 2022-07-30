@@ -103,9 +103,7 @@ def todosContainContent(content):
 
 # Add todo
 
-if(args_dict.__contains__("a")):
-    content = args_dict["a"]
-
+def addTodo(content):
     if(containsHelp(content)):
         print("""add "some task" """)
         exit()
@@ -137,6 +135,13 @@ if(args_dict.__contains__("a")):
 
     todos.append({"date": todo_date.timestamp(),
                   "content": content, "done": False})
+
+
+if(args_dict.__contains__("a")):
+    addTodo(args_dict["a"])
+
+if(args_dict.__contains__("add")):
+    addTodo(args_dict["add"])
 
 with open("output.yaml", "w+") as file:
     yaml.dump(yaml.safe_load(str(todos)), file)
