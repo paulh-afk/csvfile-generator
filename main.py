@@ -7,7 +7,12 @@ import yaml
 # ARGS
 
 command_list = ["-h", "--help", "h", "help",
-                "l", "t", "dd", "d", "a", "add", "e", "edit", "export"]
+                "l", "list", "t",
+                "dd", "del", "delete",
+                "a", "add",
+                "d", "done",
+                "e", "edit",
+                "export"]
 
 
 def showHelp():
@@ -99,17 +104,25 @@ if(len(args) == 1 and args.__contains__("help")):
 
 # List todolist
 
-if(args.__contains__("l")):
-    del args[args.index("l")]
 
+def showTodos():
     if(len(todos) == 0):
         print("No tasks !")
 
     for todo in todos:
         date = datetime.fromtimestamp(todo["date"])
         minutes = minutesConverter(date.minute)
-        print(date.month, "-", date.day, " ", date.hour,
-              ":", minutes, " > ", todo["content"], sep="")
+        print(date.month, "-", date.day, " / ", date.hour,
+              ":", minutes, " | ", todo["content"], sep="")
+
+
+if(args.__contains__("l")):
+    del args[args.index("l")]
+    showTodos()
+
+if(args.__contains__("list")):
+    del args[args.index("list")]
+    showTodos()
 
 
 # List today todolist
@@ -126,7 +139,14 @@ if(args.__contains__("dd")):
     print("Delete done tasks")
     del args[args.index("dd")]
 
-args_dict = argsToDictionary(args)
+    for todo in todos:
+        print(todo)
+
+try:
+    args_dict = argsToDictionary(args)
+except:
+    print("An argument isn't valid")
+    exit()
 
 # Add todo
 
@@ -167,7 +187,7 @@ def addTodo(content):
     answer = inquirer.prompt([inquirer.List(
         "again", message="Do you want to add another task ?", choices=["Yes", "No"])])
     if(answer["again"] == "Yes"):
-        content = input("Enter the task : ")
+        content = input("Enter the task name : ")
         addTodo(content)
 
 
@@ -176,6 +196,21 @@ if(args_dict.__contains__("a")):
 
 if(args_dict.__contains__("add")):
     addTodo(args_dict["add"])
+
+# Done Todo
+# param: index or todo content
+
+
+def doneTodo(content):
+    for todo in todos:
+        print(todo)
+
+
+if(args_dict.__contains__("d")):
+    doneTodo(args_dict["d"])
+
+if(args_dict.__contains__("done")):
+    doneTodo(args_dict["done"])
 
 sortTodos()
 
