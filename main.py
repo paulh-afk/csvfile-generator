@@ -78,12 +78,12 @@ def todosContainContent(content):
 
 
 def sortTodos():
-    for i in range(len(todos) - 1):
+    for _ in range(len(todos) - 1):
         for j in range(len(todos) - 1):
             if(todos[j]["date"] > todos[j + 1]["date"]):
-                greatest = todos[j]["date"]
-                todos[j]["date"] = todos[j + 1]["date"]
-                todos[j + 1]["date"] = greatest
+                greatest = todos[j]
+                todos[j] = todos[j + 1]
+                todos[j + 1] = greatest
 
 
 # COMMANDS
@@ -163,6 +163,12 @@ def addTodo(content):
 
     todos.append({"date": todo_date.timestamp(),
                   "content": content, "done": False})
+
+    answer = inquirer.prompt([inquirer.List(
+        "again", message="Do you want to add another task ?", choices=["Yes", "No"])])
+    if(answer["again"] == "Yes"):
+        content = input("Enter the task : ")
+        addTodo(content)
 
 
 if(args_dict.__contains__("a")):
