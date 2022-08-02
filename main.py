@@ -202,8 +202,22 @@ if(args_dict.__contains__("add")):
 
 
 def doneTodo(content):
+    index = int
+    try:
+        index = int(content)
+    except:
+        index = None
+
+    if(index != None):
+        try:
+            todo = todos[index]
+            todo["done"] = True
+        except:
+            exit()
+
     for todo in todos:
-        print(todo)
+        if(todo["content"] == content):
+            todo["done"] = True 
 
 
 if(args_dict.__contains__("d")):
