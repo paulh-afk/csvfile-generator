@@ -152,10 +152,6 @@ except:
 
 
 def addTodo(content):
-    if(containsHelp(content)):
-        print("""add "some task" """)
-        exit()
-
     if(todosContainContent(content)):
         print("This task already exists")
         answer = inquirer.prompt([inquirer.List(
@@ -192,10 +188,22 @@ def addTodo(content):
 
 
 if(args_dict.__contains__("a")):
-    addTodo(args_dict["a"])
+    content = args_dict["a"]
+
+    if(containsHelp(content)):
+        print("""a "some task" """)
+        exit()
+
+    addTodo(content)
 
 if(args_dict.__contains__("add")):
-    addTodo(args_dict["add"])
+    content = args_dict["add"]
+
+    if(containsHelp(content)):
+        print("""add "some task" """)
+        exit()
+
+    addTodo(content)
 
 # Done Todo
 # param: index or todo content
@@ -209,22 +217,36 @@ def doneTodo(content):
         index = None
 
     if(index != None):
+        # index
         try:
             todo = todos[index]
             todo["done"] = True
         except:
             exit()
-
-    for todo in todos:
-        if(todo["content"] == content):
-            todo["done"] = True 
+    else:
+        # content
+        for todo in todos:
+            if(todo["content"] == content):
+                todo["done"] = True
 
 
 if(args_dict.__contains__("d")):
-    doneTodo(args_dict["d"])
+    content = args_dict["d"]
+
+    if(containsHelp(content)):
+        print("""d <index|content> """)
+        exit()
+
+    doneTodo(content)
 
 if(args_dict.__contains__("done")):
-    doneTodo(args_dict["done"])
+    content = args_dict["done"]
+
+    if(containsHelp(content)):
+        print("""done <index|content> """)
+        exit()
+
+    doneTodo(content)
 
 sortTodos()
 
