@@ -36,6 +36,17 @@ def verifyArg(arg):
     return False
 
 
+def singleContainsHelp():
+    if(
+      (args.__contains__("-h")) or
+      (args.__contains__("--help")) or
+      (args.__contains__("h")) or
+      (args.__contains__("help"))):
+        return True
+
+    return False
+
+
 def containsHelp(key):
     if(
       (key == "-h") or
@@ -136,11 +147,13 @@ if(args.__contains__("t")):
 # Delete done
 
 if(args.__contains__("dd")):
-    print("Delete done tasks")
     del args[args.index("dd")]
 
-    for todo in todos:
-        print(todo)
+    if(singleContainsHelp()):
+        print("Delete done tasks")
+        exit()
+
+    todos.clear()
 
 try:
     args_dict = argsToDictionary(args)
