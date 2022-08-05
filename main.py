@@ -261,6 +261,24 @@ if(args_dict.__contains__("done")):
 
     doneTodo(content)
 
+# Edit todo
+
+if(args_dict.__contains__("e")):
+    content = args_dict["e"]
+
+    if(containsHelp(content)):
+        print("""e <index|content> """)
+        exit()
+
+
+if(args_dict.__contains__("edit")):
+    content = args_dict["edit"]
+
+    if(containsHelp(content)):
+        print("""edit <index|content> """)
+        exit()
+
+
 sortTodos()
 
 with open("output.yaml", "w+") as file:
