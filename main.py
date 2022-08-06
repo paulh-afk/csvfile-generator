@@ -33,6 +33,7 @@ def argsToDictionary(args):
 def verifyArg(arg):
     if(command_list.__contains__(arg)):
         return True
+
     return False
 
 
@@ -161,6 +162,24 @@ except:
     print("An argument isn't valid")
     exit()
 
+# Delete todo
+
+if(args.__contains__("d")):
+    content = args_dict["d"]
+
+    if(containsHelp(content)):
+        print("""d <index|content>""")
+        exit()
+
+
+if(args.__contains__("delete")):
+    content = args_dict["delete"]
+
+    if(containsHelp(content)):
+        print("""d <index|content>""")
+        exit()
+
+
 # Add todo
 
 
@@ -247,7 +266,7 @@ if(args_dict.__contains__("d")):
     content = args_dict["d"]
 
     if(containsHelp(content)):
-        print("""d <index|content> """)
+        print("""d <index|content>""")
         exit()
 
     doneTodo(content)
@@ -256,7 +275,7 @@ if(args_dict.__contains__("done")):
     content = args_dict["done"]
 
     if(containsHelp(content)):
-        print("""done <index|content> """)
+        print("""done <index|content>""")
         exit()
 
     doneTodo(content)
@@ -292,7 +311,7 @@ if(args_dict.__contains__("e")):
     content = args_dict["e"]
 
     if(containsHelp(content)):
-        print("""e <index|content> """)
+        print("""e <index|content>""")
         exit()
 
     editTodo(content)
@@ -302,7 +321,7 @@ if(args_dict.__contains__("edit")):
     content = args_dict["edit"]
 
     if(containsHelp(content)):
-        print("""edit <index|content> """)
+        print("""edit <index|content>""")
         exit()
 
     editTodo(content)
