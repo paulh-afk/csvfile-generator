@@ -263,12 +263,39 @@ if(args_dict.__contains__("done")):
 
 # Edit todo
 
+
+def editTodo(inp_data):
+    index = None
+    content = str()
+
+    try:
+        index = int(inp_data)
+        content = todos[index]["content"]
+    except:
+        index = None
+
+    for i in range(len(todos)):
+        if(todos[i]["content"] == inp_data):
+            content = todos[i]["content"]
+            index = i
+
+    if(index == None):
+        exit()
+
+    new_content = input('The content was ' + content +
+                        ", what would you replace it with ? ")
+
+    todos[index]["content"] = new_content
+
+
 if(args_dict.__contains__("e")):
     content = args_dict["e"]
 
     if(containsHelp(content)):
         print("""e <index|content> """)
         exit()
+
+    editTodo(content)
 
 
 if(args_dict.__contains__("edit")):
@@ -277,6 +304,8 @@ if(args_dict.__contains__("edit")):
     if(containsHelp(content)):
         print("""edit <index|content> """)
         exit()
+
+    editTodo(content)
 
 
 sortTodos()
