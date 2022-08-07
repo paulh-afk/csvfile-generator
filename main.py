@@ -154,13 +154,13 @@ if(args.__contains__("dd")):
         print("Delete done tasks")
         exit()
 
-    result = list()
+    not_done_todos = list()
 
     for todo in todos:
         if(not(todo["done"])):
-            result.append(todo)
+            not_done_todos.append(todo)
 
-    todos = result
+    todos = not_done_todos
 
 try:
     args_dict = argsToDictionary(args)
@@ -170,20 +170,55 @@ except:
 
 # Delete todo
 
-if(args.__contains__("d")):
-    content = args_dict["d"]
+
+def deleteTodo(content):
+    global todos
+
+    if(content == "*"):
+        todos.clear()
+        exit()
+
+    content_index = int
+    try:
+        content_index = int(content)
+    except:
+        content_index = None
+
+    if(content_index != None):
+        # index
+        try:
+            todos.pop(content_index)
+        except:
+            exit()
+    else:
+        # content
+        not_deleted_todos = list()
+
+        for todo in todos:
+            if(todo["content"] != content):
+                not_deleted_todos.append(todo)
+
+        todos = not_deleted_todos
+
+
+if(args.__contains__("del")):
+    content = args_dict["del"]
 
     if(containsHelp(content)):
-        print("""d <index|content>""")
+        print("""del <index|content>""")
         exit()
+
+    deleteTodo(content)
 
 
 if(args.__contains__("delete")):
     content = args_dict["delete"]
 
     if(containsHelp(content)):
-        print("""d <index|content>""")
+        print("""delete <index|content>""")
         exit()
+
+    deleteTodo(content)
 
 
 # Add todo
@@ -257,8 +292,7 @@ def doneTodo(content):
     if(index != None):
         # index
         try:
-            todo = todos[index]
-            todo["done"] = True
+            todos[index]["done"] = True
         except:
             exit()
     else:
