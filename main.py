@@ -62,7 +62,15 @@ def minutesConverter(minutes):
     if(minutes < 10):
         return "0" + str(minutes)
 
-    return minutes
+    return str(minutes)
+
+
+def formatTodo(todo):
+    date = datetime.fromtimestamp(todo["date"])
+    minutes = minutesConverter(date.minute)
+
+    return str(str(date.month) + "-" + str(date.day) + " / " + str(date.hour) +
+               ":" + minutes + " | " + todo["content"])
 
 
 # Delete program name from args
@@ -117,8 +125,8 @@ if(len(args) == 1 and args.__contains__("help")):
 # Count todos
 
 
-def printCountTodos():
-    print("There is", str(len(todos)), "task todo !")
+def countTodos():
+    return ("There is", str(len(todos)), "task todo !")
 
 
 if(args.__contains__("c")):
@@ -128,7 +136,7 @@ if(args.__contains__("c")):
         print("Return nomber of todos")
         exit()
 
-    printCountTodos()
+    print(countTodos())
 
 if(args.__contains__("count")):
     del args[args.index("count")]
@@ -137,8 +145,8 @@ if(args.__contains__("count")):
         print("Return nomber of todos")
         exit()
 
-    printCountTodos()
-
+    print(countTodos())
+ 
 # List todolist
 
 
@@ -147,10 +155,7 @@ def showTodos():
         print("No tasks !")
 
     for todo in todos:
-        date = datetime.fromtimestamp(todo["date"])
-        minutes = minutesConverter(date.minute)
-        print(date.month, "-", date.day, " / ", date.hour,
-              ":", minutes, " | ", todo["content"], sep="")
+        print(formatTodo(todo))
 
 
 if(args.__contains__("l")):
@@ -162,7 +167,24 @@ if(args.__contains__("list")):
     showTodos()
 
 
-# List today todolist
+# List today todos
+
+def listTodayTodos():
+    actual_ts = time.time()
+    actual_date = datetime.fromtimestamp(actual_ts)
+
+    hours_ts = actual_date.hour * 60 * 60
+    minutes_ts = actual_date.minute * 60
+    seconds_ts = actual_date.second
+
+    day_in_sec = 60 * 60 * 24
+    start_day_ts = actual_ts - hours_ts - minutes_ts - seconds_ts
+    end_day_ts = start_day_ts + day_in_sec
+
+    for todo in todos:
+        if((int(todo["date"]) >= int(start_day_ts)) and (int(todo["date"]) <= int(end_day_ts))):
+            print(formatTodo(todo))
+
 
 if(args.__contains__("t")):
     del args[args.index("t")]
@@ -171,11 +193,7 @@ if(args.__contains__("t")):
         print("Delete done tasks")
         exit()
 
-    for todo in todos:
-        actual_ts = time.time()
-
-        print(actual_ts)
-
+    listTodayTodos()
     # get actual date 00:00 to 23:59 todos
 
 
@@ -211,7 +229,7 @@ def deleteTodo(content):
 
     if(content == "*"):
         todos.clear()
-        exit()
+        return True
 
     content_index = int
     try:
