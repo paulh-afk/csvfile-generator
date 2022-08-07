@@ -8,6 +8,7 @@ import yaml
 
 command_list = ["-h", "--help", "h", "help",
                 "l", "list", "t",
+                "c", "count",
                 "dd", "del", "delete",
                 "a", "add",
                 "d", "done",
@@ -114,6 +115,20 @@ if(len(args) == 1 and args.__contains__("help")):
     showHelp()
     del args[args.index("help")]
 
+# Count todos
+
+if(args.__contains__("c")):
+    if(singleContainsHelp()):
+        print("Return nomber of todos")
+        exit()
+
+
+if(args.__contains__("count")):
+    if(singleContainsHelp()):
+        print("Return nomber of todos")
+        exit()
+
+
 # List todolist
 
 
@@ -140,12 +155,21 @@ if(args.__contains__("list")):
 # List today todolist
 
 if(args.__contains__("t")):
-    print("Showing todolist for today")
     del args[args.index("t")]
+
+    if(singleContainsHelp()):
+        print("Delete done tasks")
+        exit()
+
+    for todo in todos:
+        actual_ts = time.time()
+
+        print(actual_ts)
 
     # get actual date 00:00 to 23:59 todos
 
-# Delete done
+
+# Delete done todos
 
 if(args.__contains__("dd")):
     del args[args.index("dd")]
@@ -167,6 +191,7 @@ try:
 except:
     print("An argument isn't valid")
     exit()
+
 
 # Delete todo
 
