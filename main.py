@@ -10,8 +10,7 @@ command_list = ["-h", "--help", "h", "help",
                 "dd", "del", "delete",
                 "a", "add",
                 "d", "done",
-                "e", "edit",
-                "export"]
+                "e", "edit"]
 
 
 def showHelp():
@@ -146,7 +145,7 @@ if(args.__contains__("count")):
         exit()
 
     print(countTodos())
- 
+
 # List todolist
 
 
