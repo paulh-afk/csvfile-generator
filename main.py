@@ -4,8 +4,6 @@ from datetime import datetime
 import inquirer
 import yaml
 
-# ARGS
-
 command_list = ["-h", "--help", "h", "help",
                 "l", "list", "t",
                 "c", "count",
@@ -67,6 +65,7 @@ def minutesConverter(minutes):
     return minutes
 
 
+# Delete program name from args
 args = sys.argv
 del args[0]
 
@@ -117,17 +116,28 @@ if(len(args) == 1 and args.__contains__("help")):
 
 # Count todos
 
+
+def printCountTodos():
+    print("There is", str(len(todos)), "task todo !")
+
+
 if(args.__contains__("c")):
+    del args[args.index("c")]
+
     if(singleContainsHelp()):
         print("Return nomber of todos")
         exit()
 
+    printCountTodos()
 
 if(args.__contains__("count")):
+    del args[args.index("count")]
+
     if(singleContainsHelp()):
         print("Return nomber of todos")
         exit()
 
+    printCountTodos()
 
 # List todolist
 
