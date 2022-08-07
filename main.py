@@ -154,7 +154,13 @@ if(args.__contains__("dd")):
         print("Delete done tasks")
         exit()
 
-    todos.clear()
+    result = list()
+
+    for todo in todos:
+        if(not(todo["done"])):
+            result.append(todo)
+
+    todos = result
 
 try:
     args_dict = argsToDictionary(args)
